@@ -24,7 +24,8 @@ setup(
     entry_points={
         'console_scripts': [
             'obstacle_detector = lab5.obstacle_detector:main',
-            'bump_and_go = lab5.bump_and_go:main'
+            'bump_and_go = lab5.bump_and_go:main',
+            'motor_controller = lab5.motor_controller:main'
         ],
     },
 )
