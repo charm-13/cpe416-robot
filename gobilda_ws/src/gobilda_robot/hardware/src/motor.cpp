@@ -17,7 +17,7 @@ Motor::Motor(int pin, std::string name)
   // The frequency for both motors need to be calculated via
   // the specs on the GoBilda Motor Controllers.
   // The motor controllers respond to signals at 1050 micro-secs -- 1950 micro-secs
-  int PWMstat1 = gpioSetPWMfrequency(pin_, 333);
+  int PWMstat1 = gpioSetPWMfrequency(pin_, 0);
   if (PWMstat1 < 0) exit(-1);
 
   return;
