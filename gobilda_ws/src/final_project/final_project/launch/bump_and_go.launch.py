@@ -5,11 +5,11 @@ def generate_launch_description():
     
     return LaunchDescription([
         Node(
-            package='lab5',
+            package='final_project',
             executable='obstacle_detector',
         ),
         Node(
-            package='lab5',
+            package='final_project',
             executable='bump_and_go',
         )
     ])
