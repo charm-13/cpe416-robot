@@ -106,7 +106,8 @@ def generate_launch_description():
     final = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
-                os.path.join(get_package_share_directory("final_project"), "launch"),
+                FindPackageShare("final_project"),
+                "launch",
                 "/bump_and_go.launch.py",
             ]
         )
@@ -117,7 +118,7 @@ def generate_launch_description():
         robot_state_pub_node,
         robot_controller_spawner,
         delay_joint_state_broadcaster_after_robot_controller_spawner,
-        final
+        final,
     ]
 
     return LaunchDescription(declared_arguments + nodes)
