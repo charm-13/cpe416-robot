@@ -1,4 +1,5 @@
 import rclpy
+from rclpy.node import Node
 import rospy
 from geometry_msgs.msg import Twist
 import Jetson.GPIO as GPIO
@@ -13,17 +14,15 @@ class MotorController(Node):
     def __init__(self):
         super().__init__('bump_and_go')
         
-        self.publisher = self.create_publisher(Twist, 'diff_drive/cmd_vel', 10) # Idk if we need this
+        self.publisher = self.create_subscription(Twist, 'diff_drive/cmd_vel', self.drive, 10) 
         self.twist = Twist()
         
-        ### The block of code below is meant to be similar to the C++ code in the Jetson GPIO PWM example
-
         # Initialize GPIO pins for PWM
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(MOTOR_LEFT, GPIO.OUT)
-        GPIO.setup(MOTOR_RIGHT, GPIO.OUT)
-
-        # Tried to use code similar to the Jetson GPIO PWM C++ example
+        GPIO.setup(MOTOR_LEFT, GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.setup(MOTOR_RIGHT, GPIO.OUT, initial=GPIO.HIGH)
+        
+    def drive(self):
         PWMstat_left = GPIO.PWM(MOTOR_LEFT, 100)
         PWMstat_right = GPIO.PWM(MOTOR_RIGHT, 100)
 
@@ -32,7 +31,7 @@ class MotorController(Node):
         PWMstat_right.ChangeDutyCycle(50)
 
         PWMstat_left.start(0)
-        PWMstat_right.start(0)
+        PWMstat_right.start(0)        
 
 def main(args=None):
     rclpy.init(args=args)

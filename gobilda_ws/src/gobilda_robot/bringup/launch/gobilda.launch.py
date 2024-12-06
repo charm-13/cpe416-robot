@@ -1,5 +1,11 @@
+import os
+
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, RegisterEventHandler
+from launch.actions import (
+    DeclareLaunchArgument,
+    RegisterEventHandler,
+    IncludeLaunchDescription,
+)
 from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessExit
 from launch.substitutions import (
@@ -11,6 +17,7 @@ from launch.substitutions import (
 
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 
 def generate_launch_description():
@@ -70,17 +77,21 @@ def generate_launch_description():
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["joint_state_broadcaster", 
-                   "--controller-manager",
-                   "/controller_manager"],
+        arguments=[
+            "joint_state_broadcaster",
+            "--controller-manager",
+            "/controller_manager",
+        ],
     )
 
     robot_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["gobilda_base_controller", 
-                   "--controller-manager",
-                   "/controller_manager"],
+        arguments=[
+            "gobilda_base_controller",
+            "--controller-manager",
+            "/controller_manager",
+        ],
     )
 
     # Delay start of joint_state_broadcaster after `robot_controller`
@@ -92,11 +103,21 @@ def generate_launch_description():
         )
     )
 
+    final = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [
+                os.path.join(get_package_share_directory("final_project"), "launch"),
+                "/bump_and_go.launch.py",
+            ]
+        )
+    )
+
     nodes = [
         control_node,
         robot_state_pub_node,
         robot_controller_spawner,
         delay_joint_state_broadcaster_after_robot_controller_spawner,
+        final
     ]
 
     return LaunchDescription(declared_arguments + nodes)
