@@ -23,7 +23,7 @@ class BumpAndGo(Node):
     def __init__(self):
         super().__init__('bump_and_go')
         
-        self.publisher = self.create_publisher(Twist, 'diff_drive/cmd_vel', 10)
+        self.publisher = self.create_publisher(Twist, 'cmd_vel', 10)
         self.twist = Twist()
         self.linear_velocity = 0.5
         self.angular_velocity = 0.35
