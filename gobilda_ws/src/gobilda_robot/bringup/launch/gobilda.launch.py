@@ -107,7 +107,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             [
                 FindPackageShare("final_project"),
-                "launch",
+                "/launch",
                 "/bump_and_go.launch.py",
             ]
         )
