@@ -25,6 +25,7 @@ setup(
         'console_scripts': [
             'obstacle_detector = final_project.obstacle_detector:main',
             'bump_and_go = final_project.bump_and_go:main',
+            'robot = final_project.robot:main'
         ],
     },
 )
